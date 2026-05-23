@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кофейня №3 — Кофейня, Ресторан, Кафе</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --coffee-dark: #2C1A0E;
+            --coffee-medium: #5C3D2E;
+            --coffee-light: #8B6914;
+            --cream: #F5F0E8;
+            --cream-dark: #E8DFD0;
+            --gold: #C9A96E;
+            --gold-light: #D4BA8A;
+            --white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-muted: #6B6B6B;
+            --green: #4A7C59;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .navbar.scrolled {
+            background: rgba(44, 26, 14, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 0.7rem 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-light);
+        }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(44, 26, 14, 0.85) 0%,
+                rgba(92, 61, 46, 0.6) 50%,
+                rgba(44, 26, 14, 0.8) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            color: var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease 0.3s both;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .hero-title .accent {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.7s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.9s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--coffee-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201, 169, 110, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--gold);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* ===== SECTIONS COMMON ===== */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--coffee-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-section {
+            background: var(--coffee-dark);
+            padding: 5rem 2rem;
+        }
+
+        .gallery-section .section-title {
+            color: var(--white);
+        }
+
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(44, 26, 14, 0.6), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* ===== MENU ===== */
+        .menu-section {
+            background: var(--cream);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .menu-card-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .menu-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .menu-card:hover .menu-card-image img {
+            transform: scale(1.1);
+        }
+
+        .menu-card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold);
+            color: var(--coffee-dark);
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .menu-card-body {
+            padding: 1.5rem;
+        }
+
+        .menu-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--coffee-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-card-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+        .menu-card-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .menu-card-weight {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: var(--cream);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+        }
+
+        /* ===== HOURS ===== */
+        .hours-section {
+            background: linear-gradient(135deg, var(--coffee-dark) 0%, var(--coffee-medium) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hours-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: rgba(201, 169, 110, 0.05);
+        }
+
+        .hours-section .section-title {
+            color: var(--white);
+        }
+
+        .hours-section .section-label {
+            color: var(--gold);
+        }
+
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .hours-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .hours-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-4px);
+            border-color: var(--gold);
+        }
+
+        .hours-card.today {
+            background: rgba(201, 169, 110, 0.15);
+            border-color: var(--gold);
+        }
+
+        .hours-day {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .hours-time {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .hours-status {
+            display: inline-block;
+            margin-top: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-open {
+            background: rgba(74, 124, 89, 0.3);
+            color: #7BC88E;
+        }
+
+        .status-closed {
+            background: rgba(200, 80, 80, 0.2);
+            color: #FF8A8A;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--coffee-dark);
+            color: var(--white);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand h3 span {
+            color: var(--gold);
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .footer-info h4 {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.8rem;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(44, 26, 14, 0.97);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s;
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu-links li {
+            margin: 1.5rem 0;
+        }
+
+        .mobile-menu-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu-links a:hover {
+            color: var(--gold);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hours-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hours-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== COFFEE BEAN DECORATION ===== */
+        .bean-decoration {
+            position: absolute;
+            opacity: 0.03;
+            font-size: 15rem;
+            color: var(--white);
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="nav-logo">Кофейня <span>№3</span></a>
+        <ul class="nav-links">
+            <li><a href="#gallery">Галерея</a></li>
+            <li><a href="#menu">Меню</a></li>
+            <li><a href="#hours">Часы работы</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburgerBtn" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+        <ul class="mobile-menu-links">
+            <li><a href="#gallery" class="mobile-link">Галерея</a></li>
+            <li><a href="#menu" class="mobile-link">Меню</a></li>
+            <li><a href="#hours" class="mobile-link">Часы работы</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="https://avatars.mds.yandex.net/get-altay/16866637/2a00000197734b8d642facb602f533e38233/XXXL" alt="Кофейня интерьер">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Кофейня · Ресторан · Кафе</div>
+            <h1 class="hero-title">Кофейня <span class="accent">№3</span></h1>
+            <p class="hero-subtitle">Изысканная кухня и ароматный кофе в самом сердце города</p>
+            <div class="hero-buttons">
+                <a href="#menu" class="btn btn-primary">Наше меню</a>
+                <a href="#hours" class="btn btn-outline">Часы работы</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24">
+                <polyline points="7 13 12 18 17 13"></polyline>
+                <line x1="12" y1="6" x2="12" y2="18"></line>
+            </svg>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section gallery-section" id="gallery">
+        <div class="section-header reveal">
+            <span class="section-label">Атмосфера</span>
+            <h2 class="section-title">Наша галерея</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item reveal" data-img="https://avatars.mds.yandex.net/get-altay/16866637/2a00000197734b8d642facb602f533e38233/XXXL">
+                <img src="https://avatars.mds.yandex.net/get-altay/16866637/2a00000197734b8d642facb602f533e38233/XXXL" alt="Кофейня — фото 1">
+            </div>
+            <div class="gallery-item reveal" data-img="https://avatars.mds.yandex.net/get-altay/4344240/2a00000177975022cc49858597ac6663ec59/XXXL">
+                <img src="https://avatars.mds.yandex.net/get-altay/4344240/2a00000177975022cc49858597ac6663ec59/XXXL" alt="Кофейня — фото 2">
+            </div>
+            <div class="gallery-item reveal" data-img="https://avatars.mds.yandex.net/get-altay/19902702/2a0000019d628d40ea00ab2303b64f925d23/XXXL">
+                <img src="https://avatars.mds.yandex.net/get-altay/19902702/2a0000019d628d40ea00ab2303b64f925d23/XXXL" alt="Кофейня — фото 3">
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="section menu-section" id="menu">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Откройте для себя</span>
+                <h2 class="section-title">Наше меню</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="menu-grid">
+                <!-- Card 1 -->
+                <div class="menu-card reveal">
+                    <div class="menu-card-image">
+                        <img src="https://avatars.mds.yandex.net/get-altay/16866637/2a00000197734b8d642facb602f533e38233/XXXL" alt="Зеленый с пармезаном и кацу">
+                        <div class="menu-card-badge">Хит</div>
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">Зелёный с пармезаном и кацу</h3>
+                        <p class="menu-card-desc">Изысканное блюдо с хрустящей панировкой кацу, нежным пармезаном и свежей зеленью</p>
+                        <div class="menu-card-footer">
+                            <div class="menu-card-price">710 <span>₽</span></div>
+                            <span class="menu-card-weight">290 г</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="menu-card reveal">
+                    <div class="menu-card-image">
+                        <img src="https://avatars.mds.yandex.net/get-altay/4344240/2a00000177975022cc49858597ac6663ec59/XXXL" alt="Бенедикт">
+                        <div class="menu-card-badge">Популярное</div>
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">Бенедикт</h3>
+                        <p class="menu-card-desc">Классический Бенедикт с яйцом пашот, голландским соусом и тостами</p>
+                        <div class="menu-card-footer">
+                            <div class="menu-card-price">615 <span>₽</span></div>
+                            <span class="menu-card-weight">400 г</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="menu-card reveal">
+                    <div class="menu-card-image">
+                        <img src="https://avatars.mds.yandex.net/get-altay/19902702/2a0000019d628d40ea00ab2303b64f925d23/XXXL" alt="Овсяная каша">
+                        <div class="menu-card-badge">Завтрак</div>
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">Овсяная каша</h3>
+                        <p class="menu-card-desc">Нежная овсяная каша на молоке с мёдом, ягодами и свежими фруктами</p>
+                        <div class="menu-card-footer">
+                            <div class="menu-card-price">385 <span>₽</span></div>
+                            <span class="menu-card-weight">250 г</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="menu-card reveal">
+                    <div class="menu-card-image">
+                        <img src="https://avatars.mds.yandex.net/get-altay/4344240/2a00000177975022cc49858597ac6663ec59/XXXL" alt="Рисовая каша">
+                        <div class="menu-card-badge">Завтрак</div>
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-title">Рисовая каша</h3>
+                        <p class="menu-card-desc">Кремовая рисовая каша с маслом, корицей и сезонными добавками</p>
+                        <div class="menu-card-footer">
+                            <div class="menu-card-price">385 <span>₽</span></div>
+                            <span class="menu-card-weight">250 г</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOURS -->
+    <section class="section hours-section" id="hours">
+        <div class="bean-decoration" style="top: 10%; left: 5%;">☕</div>
+        <div class="bean-decoration" style="bottom: 5%; right: 10%;">☕</div>
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-label">Ждём вас</span>
+                <h2 class="section-title">График работы</h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="hours-grid">
+                <div class="hours-card reveal" data-day="1">
+                    <div class="hours-day">Понедельник</div>
+                    <div class="hours-time">08:00 – 20:00</div>
+                    <span class="hours-status" id="status-1"></span>
+                </div>
+                <div class="hours-card reveal" data-day="2">
+                    <div class="hours-day">Вторник</div>
+                    <div class="hours-time">08:00 – 20:00</div>
+                    <span class="hours-status" id="status-2"></span>
+                </div>
+                <div class="hours-card reveal" data-day="3">
+                    <div class="hours-day">Среда</div>
+                    <div class="hours-time">08:00 – 20:00</div>
+                    <span class="hours-status" id="status-3"></span>
+                </div>
+                <div class="hours-card reveal" data-day="4">
+                    <div class="hours-day">Четверг</div>
+                    <div class="hours-time">08:00 – 20:00</div>
+                    <span class="hours-status" id="status-4"></span>
+                </div>
+                <div class="hours-card reveal" data-day="5">
+                    <div class="hours-day">Пятница</div>
+                    <div class="hours-time">08:00 – 20:00</div>
+                    <span class="hours-status" id="status-5"></span>
+                </div>
+                <div class="hours-card reveal" data-day="6">
+                    <div class="hours-day">Суббота</div>
+                    <div class="hours-time">09:00 – 20:00</div>
+                    <span class="hours-status" id="status-6"></span>
+                </div>
+                <div class="hours-card reveal" data-day="0">
+                    <div class="hours-day">Воскресенье</div>
+                    <div class="hours-time">09:00 – 20:00</div>
+                    <span class="hours-status" id="status-0"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Кофейня <span>№3</span></h3>
+                <p>Уютное место, где каждая чашка кофе — это маленькое путешествие. Мы создаём атмосферу, в которую хочется возвращаться.</p>
+            </div>
+            <div class="footer-info">
+                <h4>Часы работы</h4>
+                <p>Пн–Пт: 08:00 – 20:00</p>
+                <p>Сб–Вс: 09:00 – 20:00</p>
+            </div>
+            <div class="footer-info">
+                <h4>Контакты</h4>
+                <p>Кофейня · Ресторан · Кафе</p>
+                <p>Ждём вас каждый день!</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Кофейня №3. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">✕</button>
+        <img src="" alt="Фото" id="lightboxImg">
+    </div>
+
+    <script>
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // ===== MOBILE MENU =====
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        hamburgerBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        mobileMenuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        // ===== SCROLL REVEAL =====
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== LIGHTBOX =====
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.getAttribute('data-img');
+                lightboxImg.src = imgSrc;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ===== HOURS STATUS =====
+        const schedule = {
+            0: { open: 9, close: 20 },  // Воскресенье
+            1: { open: 8, close: 20 },  // Понедельник
+            2: { open: 8, close: 20 },  // Вторник
+            3: { open: 8, close: 20 },  // Среда
+            4: { open: 8, close: 20 },  // Четверг
+            5: { open: 8, close: 20 },  // Пятница
+            6: { open: 9, close: 20 },  // Суббота
+        };
+
+        const now = new Date();
+        const currentDay = now.getDay();
+        const currentHour = now.getHours();
+
+        document.querySelectorAll('.hours-card').forEach(card => {
+            const dayNum = parseInt(card.getAttribute('data-day'));
+            const statusEl = document.getElementById(`status-${dayNum}`);
+
+            if (dayNum === currentDay) {
+                card.classList.add('today');
+                const daySchedule = schedule[dayNum];
+                const isOpen = currentHour >= daySchedule.open && currentHour < daySchedule.close;
+
+                if (isOpen) {
+                    statusEl.textContent = 'Открыто';
+                    statusEl.className = 'hours-status status-open';
+                } else {
+                    statusEl.textContent = 'Закрыто';
+                    statusEl.className = 'hours-status status-closed';
+                }
+            } else {
+                statusEl.textContent = '';
+            }
+        });
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
